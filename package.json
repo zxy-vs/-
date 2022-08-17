@@ -1,0 +1,39 @@
+{
+  "name": "erabbit",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "^2.0.6",
+    "animate.css": "^4.1.1",
+    "core-js": "^3.6.5",
+    "element-china-area-data": "^5.0.2",
+    "element-plus": "^2.2.12",
+    "pinia": "^2.0.17",
+    "pinia-plugin-persistedstate": "^2.1.1",
+    "vue": "^3.0.0",
+    "vue-router": "^4.0.0-0",
+    "vuex": "^4.0.0-0"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.5.15",
+    "@vue/cli-plugin-router": "~4.5.15",
+    "@vue/cli-plugin-vuex": "~4.5.15",
+    "@vue/cli-service": "~4.5.15",
+    "@vue/compiler-sfc": "^3.0.0",
+    "axios": "^0.18.0",
+    "less": "^3.0.4",
+    "less-loader": "^5.0.0",
+    "unplugin-auto-import": "^0.11.1",
+    "unplugin-vue-components": "^0.22.3",
+    "vue-cli-plugin-axios": "~0.0.4"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
