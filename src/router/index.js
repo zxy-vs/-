@@ -20,7 +20,11 @@ const routes = [
       component:()=>import('../components/category/Product.vue'),
     },{
       path:'/member',
-      component:()=>import('../components/member/MCom.vue')
+      component:()=>import('../components/member/MCom.vue'),
+      children:[{
+        path:'/member/order',
+        component:()=>import('../components/member/order.vue'),
+      }]
     },{
       path:'/cart',
       component:()=>import('../components/category/cart.vue')
