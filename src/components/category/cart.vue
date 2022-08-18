@@ -119,7 +119,7 @@
       <div class="total">
         共 {{ AllNum }} 件商品，已选择 {{ SelectNum }} 件，商品合计：
         <span class="red">¥{{ SelectPrice }}</span>
-        <button>下单结算</button>
+        <router-link to="/member/checkout">下单结算</router-link>
       </div>
     </div>
   </div>
@@ -345,11 +345,13 @@ export default {
         font-weight: 700;
         color: #cf4444;
       }
-      button {
+      a {
+        display: inline-block;
         background: #27ba9b;
         color: #fff;
         width: 180px;
         height: 50px;
+        line-height: 50px;
         font-size: 16px;
         text-align: center;
         border: 1px solid #27ba9b;

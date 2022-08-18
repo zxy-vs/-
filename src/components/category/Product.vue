@@ -182,7 +182,7 @@ const product = reactive({
   getpddt(id) {
     axios.get("/api/goods?id=" + id).then((res) => {
       this.pddt = res.result;
-      // console.log(this.pddt.userAddresses[0].fullLocation);
+      this.selectedOptions = [res.result.userAddresses[0].provinceCode,res.result.userAddresses[0].cityCode,res.result.userAddresses[0].countyCode]
     });
   },
   getxc(id) {

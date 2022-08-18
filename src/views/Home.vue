@@ -22,10 +22,10 @@
           <el-icon v-if="index == hlist.length - 1"><Iphone /></el-icon>
           {{ item.name }}
         </a>
-        <a href="javascript:;" v-if="index != 1 && index != 0">
+        <router-link :to="item.path" v-if="index != 1 && index != 0">
           <el-icon v-if="index == hlist.length - 1"><Iphone /></el-icon>
           {{ item.name }}
-        </a>
+        </router-link>
       </li>
     </ul>
   </div>
@@ -142,18 +142,18 @@ export default {
   setup() {
     const usetxtStore = useTxtStore();
     const route = useRoute();
-    const { usetxt, hometxt,list } = storeToRefs(usetxtStore);
+    const { usetxt, hometxt, list } = storeToRefs(usetxtStore);
     const sticky = ref();
     const time = ref();
     const home = reactive({
       hlist: [
         { name: "请先登录", path: "/login" },
-        { name: "免费注册" },
-        { name: "我的订单" },
-        { name: "会员中心" },
-        { name: "帮助中心" },
-        { name: "关于我们" },
-        { name: "手机版" },
+        { name: "免费注册", path: "/" },
+        { name: "我的订单", path: "/member/order" },
+        { name: "会员中心", path: "/" },
+        { name: "帮助中心", path: "/" },
+        { name: "关于我们", path: "/" },
+        { name: "手机版", path: "/" },
       ],
       nav: [],
       search: "",
@@ -164,7 +164,7 @@ export default {
       esc() {
         localStorage.removeItem("token");
         usetxt.value = {};
-        list.value = []
+        list.value = [];
       },
       async getnav() {
         let { result } = await axios.get("/api/home/category/head");
@@ -186,10 +186,12 @@ export default {
     home.getnav();
     onMounted(() => {
       window.onscroll = function () {
-        if (document.documentElement.scrollTop > 80) {
-          sticky.value.className = "sticky show";
-        } else {
-          sticky.value.className = "sticky";
+        if (route.path != "/login") {
+          if (document.documentElement.scrollTop > 80) {
+            sticky.value.className = "sticky show";
+          } else {
+            sticky.value.className = "sticky";
+          }
         }
       };
     });
@@ -370,11 +372,10 @@ nav {
         transform: rotateX(0);
       }
     }
-    
   }
-  .bg{
-      background-color: #f5f5f5;
-    }
+  .bg {
+    background-color: #f5f5f5;
+  }
 }
 .active {
   color: #27ba9b;
