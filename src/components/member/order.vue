@@ -12,11 +12,11 @@
     </nav>
     <div class="o-list" v-if="or.items">
       <div class="o-item" v-for="item of or.items" :key="item.id">
-        <or-com :item="item" />
+        <or-com :value="item" @shou="Replace" />
       </div>
     </div>
-    <div class="x-p" v-if="pages>1">
-      <el-pagination 
+    <div class="x-p" v-if="pages > 1">
+      <el-pagination
         v-model:currentPage="page"
         :page-size="5"
         background
@@ -48,6 +48,10 @@ const order = reactive({
   },
 });
 const { nav, indexs, or, page, pages } = toRefs(order);
+const Replace = (n) => {
+  console.log(n);
+  order.or.items[order.or.items.findIndex((v) => v.id == n.id)] = n;
+};
 watchEffect(() => {
   if (route.path == "/member/order") {
     order.getor(order.page, indexs.value);

@@ -7,7 +7,7 @@
   </div>
   <div class="main" v-if="address.length">
     <ul
-      v-for="item,index of address"
+      v-for="(item, index) of address"
       :key="item.id"
       @click="indexs = index"
       :class="indexs == index ? 'select' : ''"
@@ -29,8 +29,8 @@
 import { storeToRefs } from "pinia";
 import { ref, toRefs } from "vue-demi";
 import { useTxtStore } from "../../store/useStore";
-const props = defineProps(["address"])
-const { address } = toRefs(props)
+const props = defineProps(["address"]);
+const { address } = toRefs(props);
 const emit = defineEmits(["upadd"]);
 const usetxtStore = useTxtStore();
 const indexs = ref(999);
@@ -42,12 +42,11 @@ const close = () => {
   emit("upadd", false);
 };
 const upd = () => {
-    console.log(indexs.value,address.value.length);
   if (indexs.value < address.value.length) {
     indress.value = indexs.value;
     emit("upadd", false);
-  }else{
-     ElMessage.error('请选择相应的地址')
+  } else {
+    ElMessage.error("请选择相应的地址");
   }
 };
 </script>

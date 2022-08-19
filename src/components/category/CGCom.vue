@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import { reactive, toRefs, watchEffect } from "vue-demi";
+import { onBeforeUnmount, reactive, toRefs, watchEffect } from "vue-demi";
 import { useRoute } from "vue-router";
 export default {
   setup() {
@@ -71,7 +71,9 @@ export default {
           }
         });
       },
+      
     });
+   
     cg.getlist();
     watchEffect(() => {
       if (route.name == "category") {

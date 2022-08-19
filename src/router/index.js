@@ -24,6 +24,9 @@ const routes = [{
       path: '/member/checkout',
       component: () => import('../components/member/checkout.vue'),
     }, {
+      path: '/member/pay',
+      component: () => import('../components/member/pay.vue'),
+    }, {
       path: '/member',
       component: () => import('../components/member/MCom.vue'),
       children: [{
@@ -38,6 +41,10 @@ const routes = [{
   {
     path: '/login',
     component: () => import('../views/Login.vue')
+  },
+  {
+    path: '/resiger',
+    component: () => import('../views/resiger.vue')
   }
 ]
 

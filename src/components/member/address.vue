@@ -97,14 +97,10 @@ watch(
       (ruleForm.fullLocation = props.txt.fullLocation
         ? props.txt.fullLocation
         : ""),
-      (ruleForm.postalCode = props.txt.postalCode
-        ? props.txt.postalCode
-        : ""),
+      (ruleForm.postalCode = props.txt.postalCode ? props.txt.postalCode : ""),
       (ruleForm.receiver = props.txt.receiver ? props.txt.receiver : ""),
       (ruleForm.cityCode = props.txt.cityCode ? props.txt.cityCode : ""),
-      (ruleForm.countyCode = props.txt.countyCode
-        ? props.txt.countyCode
-        : ""),
+      (ruleForm.countyCode = props.txt.countyCode ? props.txt.countyCode : ""),
       (ruleForm.provinceCode = props.txt.provinceCode
         ? props.txt.provinceCode
         : ""),
@@ -114,9 +110,6 @@ watch(
       ruleForm.cityCode,
       ruleForm.countyCode,
     ];
-    // selectedOptions.value[0] = ruleForm.provinceCode
-    // selectedOptions.value[1] = ruleForm.cityCode
-    // selectedOptions.value[2] = ruleForm.countyCode
   }
 );
 let ruleForm = reactive({
@@ -161,10 +154,12 @@ const submitForm = async (formEl) => {
       console.log(ruleForm);
       if (ruleForm.id) {
         axios.put("/api/member/address/" + ruleForm.id, ruleForm);
-        emit("showss", false);
+        emit("showss", false, ruleForm);
       } else {
-        axios.post("/api/member/address", ruleForm);
-        emit("showss", false);
+        axios.post("/api/member/address", ruleForm).then((res) => {
+          ruleForm.id = res.result.id;
+          emit("showss", false, ruleForm);
+        });
       }
     }
   });

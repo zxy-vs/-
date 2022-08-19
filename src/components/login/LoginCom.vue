@@ -1,9 +1,6 @@
-import { storeToRefs } from "pinia";
-import { storeToRefs } from "pinia";
-import { storeToRefs } from "pinia";
 <template>
   <div class="loginCom">
-    <nav>
+   <nav>
       <a href="javascript:;" :class="show ? 'active' : ''" @click="show = true"
         >账户登录</a
       >
@@ -11,7 +8,7 @@ import { storeToRefs } from "pinia";
         href="javascript:;"
         :class="!show ? 'active' : ''"
         @click="show = false"
-        >扫码登录</a
+        >扫码 登录</a
       >
     </nav>
     <main>
@@ -132,14 +129,14 @@ export default {
       show: true,
       shows: true,
       ruleFrom: {
-        usename: "",
-        password: "",
+        usename: "xiaotuxian001",
+        password: "123456",
       },
       ruleFroms: {
         usename: "",
         yzm: "",
       },
-      checked2: false,
+      checked2: true,
     });
     const validatePass = (rule, value, callback) => {
       if (value === "") {

@@ -25,7 +25,8 @@
                 >{{ checkout.tel(check.userAddresses[indress].contact) }}
               </li>
               <li>
-                <span>收货地址：</span>{{ check.userAddresses[indress].fullLocation
+                <span>收货地址：</span
+                >{{ check.userAddresses[indress].fullLocation
                 }}{{ check.userAddresses[indress].address }}
               </li>
             </ul>
@@ -37,7 +38,7 @@
             >
           </div>
           <div class="action">
-            <button @click="isShowss=true">切换地址</button>
+            <button @click="isShowss = true">切换地址</button>
             <button @click="clas(false)">添加地址</button>
           </div>
         </div>
@@ -45,13 +46,13 @@
           <div :class="['wrapper', isShow ? 'fade' : '']">
             <Address
               :txt="isShows ? check.userAddresses[indress] : '[]'"
-              @showss="showss(is)"
+              @showss="showss"
             />
           </div>
         </div>
         <div :class="['log', true ? 'fade' : '']" v-show="isShowss">
           <div :class="['wrapper', 's', true ? 'fade' : '']">
-            <Updress :address=" check.userAddresses" @upadd="upadd(is)"  />
+            <Updress :address="check.userAddresses" @upadd="upadd(is)" />
           </div>
         </div>
       </div>
@@ -93,8 +94,8 @@
           class="btn"
           v-for="(item, index) of plist"
           :key="index"
-          @click="indexs = index"
-          :class="index == indexs ? 'active' : ''"
+          @click="deliveryTimeType = index + 1"
+          :class="index + 1 == deliveryTimeType ? 'active' : ''"
           >{{ item }}</a
         >
       </div>
@@ -102,17 +103,32 @@
       <div class="box-body">
         <a
           href="javascript:;"
-          :class="['btn', indexss == 0 ? 'active' : '']"
-          @click="indexss = 0"
+          :class="['btn', payType == 1 ? 'active' : '']"
+          @click="payType = 1"
           >在线支付</a
         >
         <a
           href="javascript:;"
-          :class="['btn', indexss == 1 ? 'active' : '']"
-          @click="indexss = 1"
+          :class="['btn', payType == 2 ? 'active' : '']"
+          @click="payType = 2"
           >货到付款</a
         >
         <span style="color: #999">货到付款需付5元手续费</span>
+      </div>
+      <h3 v-show="payType != 2">支付渠道</h3>
+      <div class="box-body" v-show="payType != 2">
+        <a
+          href="javascript:;"
+          :class="['btn', payChannel == 1 ? 'active' : '']"
+          @click="payChannel = 1"
+          >支付宝</a
+        >
+        <a
+          href="javascript:;"
+          :class="['btn', payChannel == 2 ? 'active' : '']"
+          @click="payChannel = 2"
+          >微信</a
+        >
       </div>
       <h3>金额明细</h3>
       <div class="box-body">
@@ -138,11 +154,14 @@
 <script setup>
 import { storeToRefs } from "pinia";
 import { reactive, ref, toRefs } from "vue-demi";
+import { useRoute, useRouter } from "vue-router";
 import { useTxtStore } from "../../store/useStore";
 import Address from "./address.vue";
 import Updress from "./Updress.vue";
-const usetxtStore  = useTxtStore()
-const {indress} = storeToRefs(usetxtStore)
+const usetxtStore = useTxtStore();
+const router = useRouter();
+const route = useRoute();
+const { indress } = storeToRefs(usetxtStore);
 const checkout = reactive({
   check: {},
   tolist: [
@@ -159,38 +178,80 @@ const checkout = reactive({
     "工作日送货：周一至周五",
     "双休日、假日送货：周六至周日",
   ],
-  indexs: 0,
-  indexss: 0,
-  getcheck() {
-    axios.get("/api/member/order/pre").then((res) => {
-      this.check = res.result;
-    });
+  async getcheck(id) {
+    let res;
+    if (id > 0) {
+      res = await axios.get("/api/member/order/repurchase/" + id);
+    } else {
+      res = await axios.get("/api/member/order/pre");
+    }
+    this.check = res.result;
+    if (res.result.userAddresses.length - 1 < indress.value) {
+      indress.value = 0;
+    }
+    let str = [];
+    for (let item of res.result.goods) {
+      str.push({ skuId: item.skuId, count: item.count });
+    }
+    order.goods = str;
   },
   tel(num) {
     return num.replace(/^(\d{3})\d{4}(\d{4})/, "$1****$2");
   },
 });
-const { check, tolist, indexs, indexss, plist, isShow, isShows, address,isShowss } =
+const { check, tolist, plist, isShow, isShows, address, isShowss } =
   toRefs(checkout);
-checkout.getcheck();
+checkout.getcheck(route.query.id);
 const clas = (is) => {
   isShow.value = true;
   isShows.value = is;
 };
-const showss = (is) => {
+const showss = (is, data) => {
   isShow.value = is;
-  checkout.getcheck();
-};
-const upadd = (is)=>{
-  isShowss.value = is 
-}
-const Order =()=>{
-    if(check.value.userAddresses.length){
-      axios.post('/api/member/order',{})
-    }else{
-
+  let ins = check.value.userAddresses.findIndex((v) => v.id == data.id);
+  // data!=undefined
+  if (ins) {
+    if (ins > 0) {
+      check.value.userAddresses[ins] = data;
+    } else {
+      check.value.userAddresses.push(data);
+      console.log(check.value.userAddresses);
     }
-}
+  } else {
+    checkout.getcheck(route.query.id);
+  }
+};
+const upadd = (is) => {
+  isShowss.value = is;
+};
+const order = reactive({
+  addressId: "",
+  buyerMessage: "",
+  deliveryTimeType: 1,
+  goods: [],
+  payChannel: 1,
+  payType: 1,
+});
+
+const { deliveryTimeType, payType, payChannel } = toRefs(order);
+const Order = () => {
+  if (check.value.userAddresses && order.goods.length) {
+    order.addressId = check.value.userAddresses[indress.value].id;
+    if (order.payType == 2) {
+      order.payChannel = "";
+    }
+    axios.post("/api/member/order", order).then((res) => {
+      usetxtStore.getCart();
+      if (order.payType == 2) {
+        router.push("/member/order");
+      } else {
+        router.push("/member/pay?id=" + res.result.id);
+      }
+    });
+  } else {
+    ElMessage.error("请选择相应并填写的信息再提交订单");
+  }
+};
 </script>
 
 <style lang="less" scoped>

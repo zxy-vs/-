@@ -4,7 +4,7 @@
       <div class="head-content">
         <router-link to="/" class="logo"> </router-link>
         <h3 class="head-tit">欢迎登录</h3>
-        <router-link to="" class="entry"> 进入网站首页 </router-link>
+        <router-link to="/" class="entry"> 进入网站首页 </router-link>
       </div>
     </header>
     <main>

@@ -6,12 +6,22 @@ import {
     Iphone,
     Search,
     ShoppingCart,
-
-ShoppingCartFull,Close,ArrowLeft,Star,View,ChatLineSquare,ArrowDown,Medal,Setting,Location
+    ShoppingCartFull,
+    Close,
+    ArrowLeft,
+    Star,
+    View,
+    ChatLineSquare,
+    ArrowDown,
+    Medal,
+    Setting,
+    Location,
+    SuccessFilled,Clock
 } from '@element-plus/icons-vue'
 import {
     ElIcon,
-    ElMessage,ElCarousel
+    ElMessage,
+    ElCarousel
 } from 'element-plus'
 
 
@@ -20,6 +30,8 @@ export default {
         App.use(ElIcon)
         App.use(ElMessage)
         App.use(ElCarousel)
+        App.component('Clock', Clock)
+        App.component('SuccessFilled', SuccessFilled)
         App.component('Medal', Medal)
         App.component('Setting', Setting)
         App.component('Location', Location)
