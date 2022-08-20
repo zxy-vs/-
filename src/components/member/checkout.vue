@@ -236,7 +236,7 @@ const order = reactive({
 
 const { deliveryTimeType, payType, payChannel } = toRefs(order);
 const Order = () => {
-  if (check.value.userAddresses && order.goods.length) {
+  if (check.value.userAddresses.id && order.goods.length) {
     order.addressId = check.value.userAddresses[indress.value].id;
     if (order.payType == 2) {
       order.payChannel = "";

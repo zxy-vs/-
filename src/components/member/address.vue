@@ -1,6 +1,7 @@
 <template>
   <div class="header">
-    <h3>修改收货地址</h3>
+    <h3 v-if="ruleForm.id">修改收货地址</h3>
+    <h3 v-else>添加收货地址</h3>
     <a href="javascript:;" @click="resetForm(ruleFormRef)"
       ><el-icon><Close /></el-icon
     ></a>

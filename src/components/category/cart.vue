@@ -90,7 +90,7 @@
         </el-table-column>
         <el-table-column label="小计" width="180">
           <template #="{ row }">
-            <div class="red">￥{{ row.price * row.count }}</div>
+            <div class="red">￥{{ fixed(row.price * row.count) }}</div>
           </template>
         </el-table-column>
         <el-table-column prop="address" label="操作" width="140">
@@ -145,7 +145,7 @@ export default {
     const SelectPrice = computed(() =>
       list.value
         .filter((v) => v.selected == true)
-        .reduce((sum, v) => (sum += v.count * v.price), 0)
+        .reduce((sum, v) => (sum += v.count * v.price), 0).toFixed(2)
     );
     const AllNum = computed(() =>
       list.value.reduce((sum, v) => (sum += v.count), 0)
@@ -226,15 +226,11 @@ export default {
         });
     };
     const rmS = () => {
-      ElMessageBox.confirm(
-        "亲，您是否确认删除选中的商品",
-        "Warning",
-        {
-          confirmButtonText: "确认",
-          cancelButtonText: "取消",
-          type: "warning",
-        }
-      ).then(() => {
+      ElMessageBox.confirm("亲，您是否确认删除选中的商品", "Warning", {
+        confirmButtonText: "确认",
+        cancelButtonText: "取消",
+        type: "warning",
+      }).then(() => {
         let ids = [];
         let lists = list.value.filter((v) => v.selected == true);
         for (let item of lists) {
@@ -250,6 +246,9 @@ export default {
             usetxtStore.getCart();
           });
       });
+    };
+    const fixed = (num) => {
+      return num.toFixed(2);
     };
     return {
       list,
@@ -268,6 +267,7 @@ export default {
       AllSl,
       AllS,
       rmS,
+      fixed,
     };
   },
 };

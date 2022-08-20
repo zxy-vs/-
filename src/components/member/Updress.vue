@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <h3>修改收货地址</h3>
+    <h3>切换收货地址</h3>
     <a href="javascript:;" @click="close"
       ><el-icon><Close /></el-icon
     ></a>
@@ -17,6 +17,9 @@
       </li>
       <li><span>联系方式：</span>{{ tel(item.contact) }}</li>
       <li><span>收货地址：</span>{{ item.fullLocation }}{{ item.address }}</li>
+      <div class="del" @click.stop="del(item.id)">
+        <Close style="width: 1em; height: 1em; font-size: 16px;"  />
+      </div>
     </ul>
   </div>
   <div class="footer">
@@ -26,6 +29,7 @@
 </template>
 
 <script setup>
+import { get } from "lodash";
 import { storeToRefs } from "pinia";
 import { ref, toRefs } from "vue-demi";
 import { useTxtStore } from "../../store/useStore";
@@ -49,6 +53,24 @@ const upd = () => {
     ElMessage.error("请选择相应的地址");
   }
 };
+const del = (id)=>{
+  ElMessageBox.confirm(
+    '是否删除该地址',
+    'Warning',
+    {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning',
+    }
+  )
+    .then(() => {
+     axios.delete('/api/member/address/'+id)
+     props.address.splice(props.address.findIndex(v=>v.id==id),1)
+    })
+    .catch(() => {
+    
+    })
+}
 </script>
 
 <style lang="less" scoped>
@@ -90,6 +112,7 @@ const upd = () => {
     line-height: 30px;
     margin-bottom: 10px;
     border: 1px solid #f5f5f5;
+    position: relative;
     &.select {
       border: 1px solid #27ba9b;
       background: #27ba9a2a;
@@ -97,6 +120,14 @@ const upd = () => {
     &:hover {
       border: 1px solid #27ba9b;
       background: #27ba9a2a;
+    }
+    .del{
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      line-height: 100%;
+      right: 20px;
+
     }
   }
 }

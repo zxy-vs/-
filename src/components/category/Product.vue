@@ -79,7 +79,7 @@
           <dl>
             <dt>配送</dt>
             <dd>
-              <div class="main-box">
+              <div class="main-box" v-if="selectedOptions.length">
                 <b>至：</b>
                 <el-cascader
                   size="small"
@@ -90,6 +90,7 @@
                 </el-cascader>
               </div>
             </dd>
+            <dd>未设置地址请前往个人中心设置地址</dd>
           </dl>
           <dl>
             <dt>服务</dt>
@@ -182,11 +183,18 @@ const product = reactive({
   getpddt(id) {
     axios.get("/api/goods?id=" + id).then((res) => {
       this.pddt = res.result;
-      this.selectedOptions = [res.result.userAddresses[0].provinceCode,res.result.userAddresses[0].cityCode,res.result.userAddresses[0].countyCode]
+      if (res.result.userAddresses.length) {
+        this.selectedOptions = [
+          res.result.userAddresses[0].provinceCode,
+          res.result.userAddresses[0].cityCode,
+          res.result.userAddresses[0].countyCode,
+        ];
+      }
     });
   },
   getxc(id) {
     axios.get(`/api/goods/relevant?id=${id}&limit=16`).then((res) => {
+      this.xc = [];
       let index = 0;
       for (let item in res.result) {
         if (item % 4) {
