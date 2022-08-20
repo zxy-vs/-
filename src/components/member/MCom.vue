@@ -4,11 +4,23 @@
       <div class="um">
         <h4>我的账户</h4>
         <div class="links">
-          <router-link to="/member" class="active">个人中心</router-link>
+          <router-link
+            to="/member"
+            :class="route.path == '/member' ? 'active' : ''"
+            >个人中心</router-link
+          >
         </div>
         <h4>交易管理</h4>
         <div class="links">
-          <router-link to="/member/order" class="active">我的订单</router-link>
+          <router-link
+            to="/member/order"
+            :class="
+              route.path == '/member/order' || route.name == 'order'
+                ? 'active'
+                : ''
+            "
+            >我的订单</router-link
+          >
         </div>
       </div>
     </div>
@@ -82,11 +94,10 @@ const { usetxt } = storeToRefs(usetxtStore);
           &:hover {
             color: #27ba9b;
           }
-          &.router-link-exact-active {
+          &.active {
             color: #27ba9b;
             &::before {
               content: "";
-              // display: none;
               width: 6px;
               height: 6px;
               border-radius: 50%;

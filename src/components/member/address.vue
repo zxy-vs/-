@@ -16,7 +16,7 @@
         class="demo-ruleForm"
       >
         <el-form-item label="收货人：" prop="receiver">
-          <el-input v-model="ruleForm.receiver" />
+          <el-input v-model="ruleForm.receiver"  />
         </el-form-item>
         <el-form-item label="手机号：" prop="contact">
           <el-input v-model="ruleForm.contact" />
@@ -89,6 +89,7 @@ const validatePass2 = (rule, value, callback) => {
 watch(
   () => props.txt,
   () => {
+    console.log(1);
     (ruleForm.address = props.txt.address ? props.txt.address : ""),
       (ruleForm.addressTags = props.txt.addressTags
         ? props.txt.addressTags

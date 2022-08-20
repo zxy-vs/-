@@ -11,6 +11,7 @@ export const useTxtStore = defineStore('useTxt', () => {
         const hometxt = ref({})
         const list = ref([])
         const indress = ref(0)
+        const showss = ref(false)
         const getCart = () => {
             if (localStorage.getItem('token')) {
                 axios.get("/api/member/cart").then((res) => {
@@ -28,7 +29,7 @@ export const useTxtStore = defineStore('useTxt', () => {
             usetxt,
             hometxt,
             list,
-            getCart,indress
+            getCart,indress,showss
         }
     }
     , {

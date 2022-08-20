@@ -21,8 +21,8 @@
                 >{{ check.userAddresses[indress].receiver }}
               </li>
               <li>
-                <span>联系方式：</span
-                >{{ checkout.tel(check.userAddresses[indress].contact) }}
+                <span>联系方式：</span>
+                {{ checkout.tel(check.userAddresses[indress].contact) }}
               </li>
               <li>
                 <span>收货地址：</span
@@ -164,6 +164,7 @@ const route = useRoute();
 const { indress } = storeToRefs(usetxtStore);
 const checkout = reactive({
   check: {},
+  checks: {},
   tolist: [
     "商品件数：",
     "商品总价：",
@@ -186,6 +187,7 @@ const checkout = reactive({
       res = await axios.get("/api/member/order/pre");
     }
     this.check = res.result;
+    this.checks = res.result;
     if (res.result.userAddresses.length - 1 < indress.value) {
       indress.value = 0;
     }
@@ -208,17 +210,16 @@ const clas = (is) => {
 };
 const showss = (is, data) => {
   isShow.value = is;
-  let ins = check.value.userAddresses.findIndex((v) => v.id == data.id);
-  // data!=undefined
-  if (ins) {
+  if (data != undefined) {
+    let ins = check.value.userAddresses.findIndex((v) => v.id == data.id);
     if (ins > 0) {
       check.value.userAddresses[ins] = data;
     } else {
       check.value.userAddresses.push(data);
-      console.log(check.value.userAddresses);
     }
   } else {
     checkout.getcheck(route.query.id);
+    // check.value= checkout.checks
   }
 };
 const upadd = (is) => {

@@ -39,7 +39,7 @@
         <li
           v-for="(item, index) of hometxt"
           :key="item.id"
-          @mouseenter="showss(index)"
+          @mouseenter="Showss(index)"
           @mouseleave="isShows = false"
         >
           <router-link
@@ -129,6 +129,7 @@
     <HomeCom v-show="route.path == '/'" />
   </nav>
   <div class="foot"></div>
+ 
 </template>
 <script>
 import { onMounted, reactive, ref, toRefs } from "vue-demi";
@@ -142,7 +143,7 @@ export default {
   setup() {
     const usetxtStore = useTxtStore();
     const route = useRoute();
-    const { usetxt, hometxt, list } = storeToRefs(usetxtStore);
+    const { usetxt, hometxt, list} = storeToRefs(usetxtStore);
     const sticky = ref();
     const time = ref();
     const home = reactive({
@@ -178,7 +179,7 @@ export default {
         this.indexs = index;
         this.isShow = true;
       },
-      showss(index) {
+      Showss(index) {
         this.indexs = index;
         this.isShows = true;
       },
@@ -195,12 +196,13 @@ export default {
         }
       };
     });
+    
     return {
       ...toRefs(home),
       usetxt,
       route,
       hometxt,
-      sticky,
+      sticky
     };
   },
   components: { EsShop, HomeCom, Section },
@@ -381,4 +383,5 @@ nav {
   color: #27ba9b;
   border-bottom: 1px solid #27ba9b;
 }
+
 </style>

@@ -16,7 +16,7 @@ import {
     Medal,
     Setting,
     Location,
-    SuccessFilled,Clock
+    SuccessFilled,Clock,SoldOut
 } from '@element-plus/icons-vue'
 import {
     ElIcon,
@@ -30,6 +30,7 @@ export default {
         App.use(ElIcon)
         App.use(ElMessage)
         App.use(ElCarousel)
+        App.component('SoldOut', SoldOut)
         App.component('Clock', Clock)
         App.component('SuccessFilled', SuccessFilled)
         App.component('Medal', Medal)
